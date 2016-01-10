@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 var graphql = require('graphql')
+var Schema = mongoose.Schema
 var GraphQLObjectType = graphql.GraphQLObjectType
 var GraphQLBoolean = graphql.GraphQLBoolean
 var GraphQLID = graphql.GraphQLID
@@ -9,11 +10,30 @@ var GraphQLNonNull = graphql.GraphQLNonNull
 var GraphQLSchema = graphql.GraphQLSchema
 
 // Mongoose Schema definition
-var TODO = mongoose.model('Todo', {
-  id: mongoose.Schema.Types.ObjectId,
+var TodoSchema = new Schema({
   title: String,
   completed: Boolean
 })
+var TODO = mongoose.model('Todo', TodoSchema)
+
+/*
+ * Using 'virtuals', which are essentially fake fields that Mongoose creates.
+ * They're not stored in the DB, they just get populated at run time
+ * See:
+ *  http://mongoosejs.com/docs/api.html
+ *  http://mongoosejs.com/docs/guide.html#toJSON
+ *  http://mongoosejs.com/docs/guide.html#toObject
+ */
+// Duplicate the ID field.
+TodoSchema.virtual('id').get(function() {
+    return this._id;
+});
+
+// Ensure virtual fields are serialised.
+TodoSchema.set('toJSON', {
+    virtuals: true
+});
+
 
 /*
  * I’m sharing my credentials here.
@@ -84,7 +104,6 @@ var MutationAdd = {
       title: args.title,
       completed: false
     })
-    newTodo.id = newTodo._id
     return new Promise((resolve, reject) => {
       newTodo.save(function (err) {
         if (err) reject(err)
