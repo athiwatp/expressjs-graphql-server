@@ -25,10 +25,10 @@ var app = app || {};
 		$.ajax({
 			method: 'POST',
 			contentType: 'application/graphql',
-			url: 'https://https://expressjs-graphql-server.herokuapp.com/graphql',
+			url: 'https://expressjs-graphql-server.herokuapp.com/graphql',
 			data: 'query Todo { todos { id, title, completed } }'
 		}).done(function(response, code) {
-			this.todos = response['todos'] || [];
+			this.todos = response.data['todos'] || [];
 			this.inform();
 			$('.todoapp').loadingOverlay('remove');
 		}.bind(this));
@@ -39,7 +39,7 @@ var app = app || {};
 		$.ajax({
 			method: 'POST',
 			contentType: 'application/graphql',
-			url: 'https://https://expressjs-graphql-server.herokuapp.com/graphql',
+			url: 'https://expressjs-graphql-server.herokuapp.com/graphql',
 			data: query
 		}).done(function(response, code) {
 			this.updateTodoList()
