@@ -44,7 +44,7 @@ TodoSchema.set('toJSON', {
  * to connect to a local instance of MongoDB use
  * COMPOSE_URI=mongodb://example:example@127.0.0.1:27017/todo
  */
-var COMPOSE_URI_DEFAULT = 'mongodb://example:example@candidate.54.mongolayer.com:10775,candidate.57.mongolayer.com:10128/spark-server-with-mongo?replicaSet=set-5647f7c9cd9e2855e00007fb'
+var COMPOSE_URI_DEFAULT = 'mongodb://example:example@ds047355.mongolab.com:47355/todo-list-graphql'
 mongoose.connect(process.env.COMPOSE_URI || COMPOSE_URI_DEFAULT, function (error) {
   if (error) console.error(error)
   else console.log('mongo connected')
